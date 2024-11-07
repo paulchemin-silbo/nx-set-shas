@@ -187,11 +187,7 @@ async function findSuccessfulCommit(
         owner,
         repo,
         // on some workflow runs we do not have branch property
-        branch:
-          lastSuccessfulEvent === 'push' ||
-          lastSuccessfulEvent === 'workflow_dispatch'
-            ? branch
-            : undefined,
+        branch,
         workflow_id,
         event: lastSuccessfulEvent,
         status: 'success',
@@ -202,7 +198,7 @@ async function findSuccessfulCommit(
       return workflow_runs.map((run: { head_sha: any }) => run.head_sha);
     });
 
-  console.log({ shas, owner, repo, workflow_id });
+  console.log({ shas, owner, repo, workflow_id, lastSuccessfulEvent });
 
   return await findExistingCommit(octokit, branch, shas);
 }

@@ -37995,10 +37995,7 @@ function findSuccessfulCommit(workflow_id, run_id, owner, repo, branch, lastSucc
             owner,
             repo,
             // on some workflow runs we do not have branch property
-            branch: lastSuccessfulEvent === 'push' ||
-                lastSuccessfulEvent === 'workflow_dispatch'
-                ? branch
-                : undefined,
+            branch,
             workflow_id,
             event: lastSuccessfulEvent,
             status: 'success',
@@ -38007,7 +38004,7 @@ function findSuccessfulCommit(workflow_id, run_id, owner, repo, branch, lastSucc
             console.log({ workflow_runs });
             return workflow_runs.map((run) => run.head_sha);
         });
-        console.log({ shas, owner, repo, workflow_id });
+        console.log({ shas, owner, repo, workflow_id, lastSuccessfulEvent });
         return yield findExistingCommit(octokit, branch, shas);
     });
 }
