@@ -197,9 +197,12 @@ async function findSuccessfulCommit(
         status: 'success',
       },
     )
-    .then(({ data: { workflow_runs } }) =>
-      workflow_runs.map((run: { head_sha: any }) => run.head_sha),
-    );
+    .then(({ data: { workflow_runs } }) => {
+      console.log({ workflow_runs });
+      return workflow_runs.map((run: { head_sha: any }) => run.head_sha);
+    });
+
+  console.log({ shas, owner, repo, workflow_id });
 
   return await findExistingCommit(octokit, branch, shas);
 }
